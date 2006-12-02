@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 #
-#  Copyright(C) 2006 Cameron Rich
+#  Copyright(C) 2006
 #
 #  This library is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -200,7 +200,7 @@ sub parseFile
 
 #===============================================================
 
-# Determine which module to build from command-line options
+# Determine which module to build from cammand-line options
 use strict;
 use Getopt::Std;
 

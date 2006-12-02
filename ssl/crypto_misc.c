@@ -1,5 +1,5 @@
 /*
- *  Copyright(C) 2006 Cameron Rich
+ *  Copyright(C) 2006
  *
  *  This library is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -17,6 +17,8 @@
  */
 
 /**
+ * @file misc.c
+ *
  * Some misc. routines to help things out
  */
 
@@ -28,8 +30,6 @@
 #ifdef CONFIG_WIN32_USE_CRYPTO_LIB
 #include "wincrypt.h"
 #endif
-
-#define BM_RECORD_OFFSET 	5	/* same as SSL_RECORD_SIZE */
 
 #ifndef WIN32
 static int rng_fd = -1;
@@ -50,9 +50,8 @@ const char * const unsupported_str = "Error: feature not supported\n";
 BUF_MEM buf_new()
 {
     BUF_MEM bm;
-    bm.pre_data = (uint8_t *)calloc(1, 2048); /* start with this */
-    bm.data = bm.pre_data+BM_RECORD_OFFSET; /* some space at the start */
-    bm.max_len = 2048-BM_RECORD_OFFSET;
+    bm.data = (uint8_t *)malloc(2048); /* should be enough to start with */
+    bm.max_len = 2048;
     bm.index = 0;
     return bm;
 }
@@ -67,9 +66,7 @@ void buf_grow(BUF_MEM *bm, int len)
         return;
     }
 
-    /* add 1kB just to be sure */
-    bm->pre_data = (uint8_t *)realloc(bm->pre_data, len+1024+BM_RECORD_OFFSET); 
-    bm->data = bm->pre_data+BM_RECORD_OFFSET;
+    bm->data = (uint8_t *)realloc(bm->data, len+1024); /* just to be sure */
     bm->max_len = len+1024;
 }
 
@@ -78,8 +75,7 @@ void buf_grow(BUF_MEM *bm, int len)
  */
 void buf_free(BUF_MEM *bm)
 {
-    free(bm->pre_data);
-    bm->pre_data = NULL;
+    free(bm->data);
     bm->data = NULL;
 }
 
@@ -308,3 +304,4 @@ void print_blob(const char *format,
 void print_blob(const char *format, const unsigned char *data,
         int size, ...) {}
 #endif
+

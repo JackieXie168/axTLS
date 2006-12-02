@@ -1,5 +1,5 @@
 /*
- *  Copyright(C) 2006 Cameron Rich
+ *  Copyright(C) 2006
  *
  *  This library is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -269,8 +269,7 @@ typedef void (*hmac_func)(const uint8_t *msg, int length, const uint8_t *key,
 
 typedef struct
 {
-    uint8_t *pre_data;	/* include the ssl record bytes */
-    uint8_t *data;	/* the regular ssl data */
+    uint8_t *data;
     int max_len;
     int index;
 } BUF_MEM;

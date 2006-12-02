@@ -1,5 +1,5 @@
 /*
- *  Copyright(C) 2006 Cameron Rich
+ *  Copyright(C) 2006
  *
  *  This license is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -17,6 +17,8 @@
  */
 
 /*
+ * ssltest.c
+ *
  * The testing of the crypto and ssl stuff goes here. Keeps the individual code
  * modules from being uncluttered with test code.
  *
@@ -1081,31 +1083,31 @@ int SSL_server_tests(void)
     TTY_FLUSH();
 
     /*
-     * PKCS#8 key (encrypted)
+     * PKCS 8 key (encrypted)
      */
-    if ((ret = SSL_server_test(NULL, "pkcs#8 encrypted", "-cipher RC4-SHA", 
-                DEFAULT_CERT, NULL, "../ssl/test/axTLS.encrypted.p8", 
-                NULL, "abcd", DEFAULT_SVR_OPTION)))
+    if ((ret = SSL_server_test(NULL, "pkcs 8 encrypted", "-cipher RC4-SHA", 
+                DEFAULT_CERT, NULL, "../ssl/test/axTLS.encrypted.p8", NULL, "abcd",
+                DEFAULT_SVR_OPTION)))
         goto cleanup;
 
     /*
-     * PKCS#8 key (unencrypted)
+     * PKCS 8 key (unencrypted)
      */
-    if ((ret = SSL_server_test(NULL, "pkcs#8 unencrypted", "-cipher RC4-SHA", 
-                DEFAULT_CERT, NULL, "../ssl/test/axTLS.unencrypted.p8", 
-                NULL, NULL, DEFAULT_SVR_OPTION)))
+    if ((ret = SSL_server_test(NULL, "pkcs 8 unencrypted", "-cipher RC4-SHA", 
+                DEFAULT_CERT, NULL, "../ssl/test/axTLS.unencrypted.p8", NULL, NULL,
+                DEFAULT_SVR_OPTION)))
         goto cleanup;
 
     /*
-     * PKCS#12 key/certificate
+     * PKCS 12 key/certificate
      */
-    if ((ret = SSL_server_test(NULL, "pkcs#12 with CA", "-cipher RC4-SHA", 
-                NULL, NULL, "../ssl/test/axTLS.withCA.p12", 
-                NULL, "abcd", DEFAULT_SVR_OPTION)))
-        goto cleanup;
-
-    if ((ret = SSL_server_test(NULL, "pkcs#12 no CA", "-cipher RC4-SHA", 
+    if ((ret = SSL_server_test(NULL, "pkcs 12 no CA", "-cipher RC4-SHA", 
                 DEFAULT_CERT, NULL, "../ssl/test/axTLS.withoutCA.p12", 
+                NULL, "abcd", DEFAULT_SVR_OPTION)))
+        goto cleanup;
+
+    if ((ret = SSL_server_test(NULL, "pkcs 12 with CA", "-cipher RC4-SHA", 
+                NULL, NULL, "../ssl/test/axTLS.withCA.p12", 
                 NULL, "abcd", DEFAULT_SVR_OPTION)))
         goto cleanup;
 
@@ -1648,61 +1650,37 @@ int main(int argc, char *argv[])
     bi_ctx = bi_initialize();
 
     if (AES_test(bi_ctx))
-    {
-        printf("AES tests failed\n");
         goto cleanup;
-    }
     TTY_FLUSH();
 
     if (RC4_test(bi_ctx))
-    {
-        printf("RC4 tests failed\n");
         goto cleanup;
-    }
     TTY_FLUSH();
 
     if (MD5_test(bi_ctx))
-    {
-        printf("MD5 tests failed\n");
         goto cleanup;
-    }
     TTY_FLUSH();
 
     if (SHA1_test(bi_ctx))
-    {
-        printf("SHA1 tests failed\n");
         goto cleanup;
-    }
     TTY_FLUSH();
 
     if (HMAC_test(bi_ctx))
-    {
-        printf("HMAC tests failed\n");
         goto cleanup;
-    }
     TTY_FLUSH();
 
     if (BIGINT_test(bi_ctx))
-    {
-        printf("BigInt tests failed!\n");
         goto cleanup;
-    }
     TTY_FLUSH();
 
     bi_terminate(bi_ctx);
 
     if (RSA_test())
-    {
-        printf("RSA tests failed\n");
         goto cleanup;
-    }
     TTY_FLUSH();
 
     if (cert_tests())
-    {
-        printf("CERT tests failed\n");
         goto cleanup;
-    }
     TTY_FLUSH();
 
     system("sh ../ssl/test/killopenssl.sh");

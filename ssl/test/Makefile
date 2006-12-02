@@ -1,5 +1,5 @@
 #
-#  Copyright(C) 2006 Cameron Rich
+#  Copyright(C) 2006
 #
 #  This library is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -35,10 +35,10 @@ ssltesting: ../../$(STAGE)/ssltest
 LIBS=../../$(STAGE)
 CFLAGS += -I../../ssl -I../../config
 
-../../$(STAGE)/perf_bigint: perf_bigint.o $(LIBS)/libaxtls.a
+../../$(STAGE)/perf_bigint: perf_bigint.o
 	$(CC) $(LDFLAGS) -o $@ $^ -L $(LIBS) -laxtls
 
-../../$(STAGE)/ssltest: ssltest.o $(LIBS)/libaxtls.a
+../../$(STAGE)/ssltest: ssltest.o
 	$(CC) $(LDFLAGS) -o $@ $^ -lpthread -L $(LIBS) -laxtls
 else
 performance: ../../$(STAGE)/perf_bigint.exe

@@ -1,5 +1,5 @@
 /*
- *  Copyright(C) 2006 Cameron Rich
+ *  Copyright(C) 2006
  *
  *  This library is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -17,6 +17,8 @@
  */
 
 /**
+ * @file aes.c
+ *
  * AES implementation - this is a small code version. There are much faster
  * versions around but they are much larger in size (i.e. they use large 
  * submix tables).
@@ -32,13 +34,12 @@
 #define rot2(x) (((x) << 16) | ((x) >> 16))
 #define rot3(x) (((x) <<  8) | ((x) >> 24))
 
-/* 
- * This cute trick does 4 'mul by two' at once.  Stolen from
+/* This cute trick does 4 'mul by two' at once.  Stolen from
  * Dr B. R. Gladman <brg@gladman.uk.net> but I'm sure the u-(u>>7) is
  * a standard graphics trick
  * The key to this is that we need to xor with 0x1b if the top bit is set.
  * a 1xxx xxxx   0xxx 0xxx First we mask the 7bit,
- * b 1000 0000   0000 0000 then we shift right by 7 putting the 7bit in 0bit,
+ * b 1000 0000   0000 0000 then we shift right by 7 puting the 7bit in 0bit,
  * c 0000 0001   0000 0000 we then subtract (c) from (b)
  * d 0111 1111   0000 0000 and now we and with our mask
  * e 0001 1011   0000 0000
@@ -193,7 +194,7 @@ void AES_set_key(AES_CTX *ctx, const uint8_t *key,
     ctx->rounds = i;
     ctx->key_size = words;
     W = ctx->ks;
-    for (i = 0; i < words; i+=2)
+    for (i=0; i<words; i+=2)
     {
         W[i+0]=	((uint32_t)key[ 0]<<24)|
             ((uint32_t)key[ 1]<<16)|
@@ -211,7 +212,6 @@ void AES_set_key(AES_CTX *ctx, const uint8_t *key,
     for (i = words; i<ii; i++)
     {
         tmp = W[i-1];
-
         if ((i % words) == 0)
         {
             tmp2 =(uint32_t)aes_sbox[(tmp    )&0xff]<< 8;
@@ -221,7 +221,6 @@ void AES_set_key(AES_CTX *ctx, const uint8_t *key,
             tmp=tmp2^(((unsigned int)*ip)<<24);
             ip++;
         }
-
         if ((words == 8) && ((i % words) == 4))
         {
             tmp2 =(uint32_t)aes_sbox[(tmp    )&0xff]    ;
@@ -248,7 +247,6 @@ void AES_convert_key(AES_CTX *ctx)
 
     k = ctx->ks;
     k += 4;
-
     for (i=ctx->rounds*4; i>4; i--)
     {
         w= *k;
@@ -476,3 +474,4 @@ static void AES_decrypt(const AES_CTX *ctx, uint32_t *data)
 }
 
 #endif
+

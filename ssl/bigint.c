@@ -1,5 +1,5 @@
 /*
- *  Copyright(C) 2006 Cameron Rich
+ *  Copyright(C) 2006
  *
  *  This library is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -165,7 +165,7 @@ void bi_permanent(bigint *bi)
 }
 
 /**
- * @brief Take a permanent object and make it eligible for freedom.
+ * @brief Take a permanent object and make it elligible for freedom.
  * @param bi [in]   The bigint to be made back to temporary.
  */
 void bi_depermanent(bigint *bi)
@@ -243,7 +243,7 @@ bigint *bi_clone(BI_CTX *ctx, const bigint *bi)
 }
 
 /**
- * @brief Perform an addition operation between two bigints.
+ * @brief Perform an additon operation between two bigints.
  * @param ctx [in]  The bigint session context.
  * @param bia [in]  A bigint.
  * @param bib [in]  Another bigint.
@@ -423,7 +423,7 @@ bigint *bi_divide(BI_CTX *ctx, bigint *u, bigint *v, int is_mod)
 
         if (v->size > 1 && V2)
         {
-            /* we are implementing the following:
+            /* we are implementing the following
             if (V2*q_dash > (((U(0)*COMP_RADIX + U(1) - 
                     q_dash*V1)*COMP_RADIX) + U(2))) ... */
             comp inner = (comp)((long_comp)COMP_RADIX*U(0) + U(1) - 
@@ -449,7 +449,6 @@ bigint *bi_divide(BI_CTX *ctx, bigint *u, bigint *v, int is_mod)
             {
                 Q(j)--;
                 tmp_u = bi_add(ctx, tmp_u, bi_copy(v));
-
                 /* lop off the carry */
                 tmp_u->size--;
                 v->size--;
@@ -479,7 +478,7 @@ bigint *bi_divide(BI_CTX *ctx, bigint *u, bigint *v, int is_mod)
     }
 }
 
-/*
+/**
  * Perform an integer divide on a bigint.
  */
 static bigint *bi_int_divide(BI_CTX *ctx, bigint *biR, comp denom)
@@ -716,7 +715,7 @@ void bi_export(BI_CTX *ctx, bigint *x, uint8_t *data, int size)
  * @param ctx [in]  The bigint session context.
  * @param bim [in]  The bigint modulus that will be used.
  * @param mod_offset [in] There are three moduluii that can be stored - the
- * standard modulus, and its two primes p and q. This offset refers to which
+ * standard modulus, and it's two primes p and q. This offset refers to which
  * modulus we are referring to.
  * @see bi_free_mod(), bi_mod_power().
  */
@@ -735,8 +734,8 @@ void bi_set_mod(BI_CTX *ctx, bigint *bim, int mod_offset)
 
 #if defined(CONFIG_BIGINT_MONTGOMERY)
     /* set montgomery variables */
-    R = comp_left_shift(bi_clone(ctx, ctx->bi_radix), k-1);     /* R */
-    R2 = comp_left_shift(bi_clone(ctx, ctx->bi_radix), k*2-1);  /* R^2 */
+    R = comp_left_shift(bi_clone(ctx, ctx->bi_radix), k-1);        /* R */
+    R2 = comp_left_shift(bi_clone(ctx, ctx->bi_radix), k*2-1);     /* R^2 */
     ctx->bi_RR_mod_m[mod_offset] = bi_mod(ctx, R2);             /* R^2 mod m */
     ctx->bi_R_mod_m[mod_offset] = bi_mod(ctx, R);               /* R mod m */
 
@@ -744,11 +743,10 @@ void bi_set_mod(BI_CTX *ctx, bigint *bim, int mod_offset)
     bi_permanent(ctx->bi_R_mod_m[mod_offset]);
 
     ctx->N0_dash[mod_offset] = modular_inverse(ctx->bi_mod[mod_offset]);
-
 #elif defined (CONFIG_BIGINT_BARRETT)
     ctx->bi_mu[mod_offset] = 
         bi_divide(ctx, comp_left_shift(
-            bi_clone(ctx, ctx->bi_radix), k*2-1), ctx->bi_mod[mod_offset], 0);
+               bi_clone(ctx, ctx->bi_radix), k*2-1), ctx->bi_mod[mod_offset], 0);
     bi_permanent(ctx->bi_mu[mod_offset]);
 #endif
 }
@@ -899,7 +897,7 @@ bigint *bi_multiply(BI_CTX *ctx, bigint *bia, bigint *bib)
 
 #ifdef CONFIG_BIGINT_SQUARE
 /*
- * Perform the actual square operion. It takes into account overflow.
+ * Perform the actual square operion. It takes into account overflow 
  */
 static bigint *regular_square(BI_CTX *ctx, bigint *bi)
 {
@@ -941,7 +939,6 @@ static bigint *regular_square(BI_CTX *ctx, bigint *bi)
         }
 
         w[i+t] += carry;
-
         if (u)
         {
             w[i+t+1] = 1;   /* add carry */
@@ -1020,7 +1017,7 @@ int bi_compare(bigint *bia, bigint *bib)
     return r;
 }
 
-/*
+/**
  * Allocate and zero more components.  Does not consume bi. 
  */
 static void more_comps(bigint *bi, int n)
@@ -1041,7 +1038,7 @@ static void more_comps(bigint *bi, int n)
 
 /*
  * Make a new empty bigint. It may just use an old one if one is available.
- * Otherwise get one off the heap.
+ * Otherwise get one of the heap.
  */
 static bigint *alloc(BI_CTX *ctx, int size)
 {
@@ -1053,7 +1050,6 @@ static bigint *alloc(BI_CTX *ctx, int size)
         biR = ctx->free_list;
         ctx->free_list = biR->next;
         ctx->free_count--;
-
         if (biR->refs != 0)
         {
 #ifdef CONFIG_SSL_FULL_MODE
@@ -1068,7 +1064,7 @@ static bigint *alloc(BI_CTX *ctx, int size)
     {
         /* No free bigints available - create a new one. */
         biR = (bigint *)malloc(sizeof(bigint));
-        biR->comps = (comp*)malloc(size * COMP_BYTE_SIZE);
+        biR->comps = (comp*) malloc(size * COMP_BYTE_SIZE);
         biR->max_comps = size;  /* give some space to spare */
     }
 
@@ -1341,7 +1337,8 @@ bigint *bi_barrett(BI_CTX *ctx, bigint *bi)
  */
 static void precompute_slide_window(BI_CTX *ctx, int window, bigint *g1)
 {
-    int k = 1, i;
+    int k = 1;
+    int i;
     bigint *g2;
 
     for (i = 0; i < window-1; i++)   /* compute 2^(window-1) */
@@ -1356,7 +1353,8 @@ static void precompute_slide_window(BI_CTX *ctx, int window, bigint *g1)
 
     for (i = 1; i < k; i++)
     {
-        ctx->g[i] = bi_residue(ctx, bi_multiply(ctx, ctx->g[i-1], bi_copy(g2)));
+        ctx->g[i] = bi_residue(ctx, bi_multiply(ctx, ctx->g[i-1], 
+                    bi_copy(g2)));
         bi_permanent(ctx->g[i]);
     }
 
@@ -1385,10 +1383,10 @@ bigint *bi_mod_power(BI_CTX *ctx, bigint *bi, bigint *biexp)
     if (!ctx->use_classical)
     {
         /* preconvert */
-        bi = bi_mont(ctx, 
-                bi_multiply(ctx, bi, ctx->bi_RR_mod_m[mod_offset]));    /* x' */
+        bi = bi_residue(ctx, 
+                bi_multiply(ctx, bi, ctx->bi_RR_mod_m[mod_offset])); /* x' */
         bi_free(ctx, biR);
-        biR = ctx->bi_R_mod_m[mod_offset];                              /* A */
+        biR = ctx->bi_R_mod_m[mod_offset];
     }
 #endif
 
@@ -1443,7 +1441,8 @@ bigint *bi_mod_power(BI_CTX *ctx, bigint *bi, bigint *biexp)
             }
 
             part_exp = (part_exp-1)/2;  /* adjust for array */
-            biR = bi_residue(ctx, bi_multiply(ctx, biR, ctx->g[part_exp]));
+            biR = bi_residue(ctx, 
+                    bi_multiply(ctx, biR, ctx->g[part_exp]));
             i = l-1;
         }
         else    /* square it */

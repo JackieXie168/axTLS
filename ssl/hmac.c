@@ -1,5 +1,5 @@
 /*
- *  Copyright(C) 2006 Cameron Rich
+ *  Copyright(C) 2006
  *
  *  This library is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -17,6 +17,8 @@
  */
 
 /**
+ * @file hmac.c
+ *
  * HMAC implementation - This code was originally taken from RFC2104
  */
 

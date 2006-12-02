@@ -1,5 +1,5 @@
 #
-#  Copyright(C) 2006 Cameron Rich
+#  Copyright(C) 2006
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ include ../../config/makefile.post
 
 ifndef CONFIG_PLATFORM_WIN32
 
-$(TARGET): $(OBJ) $(LIBS)/libaxtls.a
+$(TARGET): $(OBJ) 
 	$(LD) $(LDFLAGS) -o $@ $< -L$(LIBS) -laxtls 
 ifndef CONFIG_DEBUG
 ifndef CONFIG_PLATFORM_SOLARIS

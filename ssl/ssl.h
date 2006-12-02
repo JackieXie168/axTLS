@@ -1,5 +1,5 @@
 /*
- *  Copyright(C) 2006 Cameron Rich
+ *  Copyright(C) 2006
  *
  *  This library is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -300,7 +300,7 @@ EXP_FUNC uint8_t STDCALL ssl_get_cipher_id(SSL *ssl);
 EXP_FUNC int STDCALL ssl_handshake_status(SSL *ssl);
 
 /**
- * @brief Retrieve various parameters about the axTLS engine.
+ * @brief Retrieve various parameters about the TLS engine.
  * @param offset [in] The configuration offset. It will be one of the following:
  * - SSL_BUILD_MODE The build mode. This will be one of the following:
  *   - SSL_BUILD_SERVER_ONLY            (basic server mode)
@@ -354,7 +354,7 @@ EXP_FUNC int STDCALL ssl_verify_cert(SSL *ssl);
  * - SSL_X509_CA_CERT_ORGANIZATION
  * - SSL_X509_CA_CERT_ORGANIZATIONAL_NAME
  * @return The appropriate string (or null if not defined)
- * @note Verification build mode must be enabled.
+ * @note Verification mode must be enabled.
  */
 EXP_FUNC const char * STDCALL ssl_get_cert_dn(SSL *ssl, int component);
 
@@ -388,7 +388,7 @@ EXP_FUNC int STDCALL ssl_renegotiate(SSL *ssl);
  * @param filename [in] The location of a file in DER/PEM format.
  * @param password [in] The password used. Can be null if not required.
  * @return SSL_OK if all ok
- * @note Not available in skeleton build mode.
+ * @note Not available in skeleton mode.
  */
 EXP_FUNC int STDCALL ssl_obj_load(SSLCTX *ssl_ctx, int obj_type, const char *filename, const char *password);
 

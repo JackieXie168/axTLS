@@ -1,5 +1,5 @@
 /*
- *  Copyright(C) 2006 Cameron Rich
+ *  Copyright(C) 2006
  *
  *  This library is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -211,12 +211,11 @@ static int process_server_hello(SSL *ssl)
     uint8_t *buf = ssl->bm_buf.data;
     int pkt_size = ssl->bm_buf.index;
     int offset;
-    int version = (buf[4] << 4) + buf[5];
-    int num_sessions = ssl->ssl_ctx->num_sessions;
     int ret = SSL_OK;
+    int num_sessions = ssl->ssl_ctx->num_sessions;
 
     /* check that we are talking to a TLSv1 server */
-    if (version != 0x31)
+    if (buf[4] != 0x03 || buf[5] != 0x01)
     {
         return SSL_ERROR_INVALID_VERSION;
     }

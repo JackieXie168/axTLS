@@ -1,5 +1,5 @@
 /*
- *  Copyright(C) 2006 Cameron Rich
+ *  Copyright(C) 2006
  *
  *  This library is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -27,6 +27,10 @@
 #define CONFIG_SSL_CERT_VERIFICATION
 #elif defined(CONFIG_SSL_ENABLE_CLIENT)
 #define CONFIG_SSL_CERT_VERIFICATION
+#endif
+
+#if !defined(CONFIG_BIGINT_MONTGOMERY) || !defined(CONFIG_BIGINT_BARRETT)
+#define CONFIG_BIGINT_CLASSICAL 1
 #endif
 
 #include "os_port.h"

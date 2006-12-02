@@ -1,5 +1,5 @@
 /*
- *  Copyright(C) 2006 Cameron Rich
+ *  Copyright(C) 2006 
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -340,9 +340,6 @@ namespace axTLS
          *
          * For a client this involves sending another "client hello" message.
          * For the server is means sending a "hello request" message.
-         *
-         * This is a blocking call on the client (until the handshake 
-         * completes).
          * @param ssl [in] An SSL object reference.
          * @return SSL_OK if renegotiation instantiation was ok
          */
